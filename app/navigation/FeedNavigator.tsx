@@ -1,16 +1,13 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
-import ListingDetailsScreen from "../screens/ListingDetailsScreen";
-import ListingsScreen, { IListing } from "../screens/ListingsScreen";
-import colors from "../config/colors";
+import React from "react";
 import { Platform } from "react-native";
+
+import colors from "../config/colors";
+import { FeedStackParamList } from "./route-types";
 import routes from "./routes";
 
-export type FeedStackParamList = {
-  Listings: undefined;
-  ListingDetails: { item: IListing };
-};
+import ListingDetailsScreen from "../screens/ListingDetailsScreen";
+import ListingsScreen from "../screens/ListingsScreen";
 
 const Stack = createStackNavigator<FeedStackParamList>();
 
@@ -19,7 +16,6 @@ const FeedNavigator: React.FC = () => (
     screenOptions={{
       headerShown: false,
       headerTintColor: colors.primary,
-      headerStyle: { backgroundColor: colors.white },
       presentation: "modal",
     }}
   >

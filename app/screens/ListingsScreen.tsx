@@ -1,41 +1,47 @@
-import React from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { FlatList, ImageSourcePropType, StyleSheet } from "react-native";
+import React, { useCallback } from "react";
+import { FlatList, StyleSheet } from "react-native";
 
+import AppActivityIndicator from "../components/AppActivityIndicator";
+import AppButton from "../components/AppButton";
+import AppText from "../components/AppText";
 import Card from "../components/Card";
 import SafeScreen from "../components/SafeScreen";
-import { FeedStackParamList } from "../navigation/FeedNavigator";
 
+import listingsApi from "../api/listings";
 import colors from "../config/colors";
+import { useApi } from "../hooks/useAPI";
 import routes from "../navigation/routes";
+
+import { FeedStackParamList } from "../navigation/route-types";
+import { IListing } from "../types/interfaces";
 
 type IListingsScreenProps = StackScreenProps<FeedStackParamList, "Listings">;
 
-export interface IListing {
-  id: number;
-  title: string;
-  price: number;
-  image: ImageSourcePropType;
-}
-
-const listings: IListing[] = [
-  {
-    id: 1,
-    title: "Red jacket for sale",
-    price: 100,
-    image: require("../assets/jacket.jpg"),
-  },
-  {
-    id: 2,
-    title: "Couch in great condition",
-    price: 1000,
-    image: require("../assets/couch.jpg"),
-  },
-];
-
 function ListingsScreen({ navigation }: IListingsScreenProps) {
+  const {
+    request: loadListings,
+    data: listings,
+    error,
+    loading,
+  } = useApi<IListing[]>(listingsApi.getListings);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadListings();
+    }, [])
+  );
+
   return (
     <SafeScreen style={styles.screen}>
+      {error && (
+        <>
+          <AppText>Couldn't load the listings.</AppText>
+          <AppButton title="Retry" onPress={loadListings} />
+        </>
+      )}
+      <AppActivityIndicator visible={loading} />
       <FlatList
         data={listings}
         keyExtractor={(item) => item.id.toString()}
@@ -43,7 +49,7 @@ function ListingsScreen({ navigation }: IListingsScreenProps) {
           <Card
             title={item.title}
             subTitle={`$${item.price}`}
-            image={item.image}
+            imageUrl={item.images[0].url}
             onPress={() =>
               navigation.navigate(routes.LISTING_DETAILS, { item })
             }

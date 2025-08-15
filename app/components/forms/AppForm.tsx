@@ -4,7 +4,7 @@ import * as Yup from "yup";
 
 interface IAppFormProps<T> {
   initialValues: T;
-  onSubmit: (values: T) => void;
+  onSubmit: (values: T) => Promise<void>;
   validationSchema: Yup.Schema<T>;
   children: ReactNode;
 }

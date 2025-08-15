@@ -1,14 +1,14 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { StackScreenProps } from "@react-navigation/stack";
 import React, { ComponentProps } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 import Icon from "../components/Icon";
-import SafeScreen from "../components/SafeScreen";
-import colors from "../config/colors";
 import { ListItem, ListItemSeparator } from "../components/lists";
-import { StackScreenProps } from "@react-navigation/stack";
-import { AccountStackParamList } from "../navigation/AccountNavigator";
-import { FeedStackParamList } from "../navigation/FeedNavigator";
+import SafeScreen from "../components/SafeScreen";
+
+import colors from "../config/colors";
+import { AccountStackParamList } from "../navigation/route-types";
 
 interface IMenuItem {
   title: string;

@@ -1,9 +1,9 @@
+import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 
 import AppButton from "../components/AppButton";
-import { StackScreenProps } from "@react-navigation/stack";
-import { AuthStackParamList } from "../navigation/AuthNavigator";
+import { AuthStackParamList } from "../navigation/route-types";
 
 type IWelcomeScreenProps = StackScreenProps<AuthStackParamList, "Welcome">;
 

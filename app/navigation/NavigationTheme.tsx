@@ -3,7 +3,7 @@ import defaultStyles from "../config/styles";
 
 export default {
   ...DefaultTheme,
-  color: {
+  colors: {
     ...DefaultTheme.colors,
     primary: defaultStyles.colors.primary,
     background: defaultStyles.colors.white,

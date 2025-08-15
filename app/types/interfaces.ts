@@ -1,0 +1,27 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { ComponentProps } from "react";
+
+export interface IListing {
+  id: number;
+  title: string;
+  description?: string;
+  images: {
+    url: string;
+    thumbnailUrl?: string;
+  }[];
+  price: number;
+  categoryId: number;
+  userId: number;
+  location?: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
+export interface ICategory {
+  id: number;
+  name: string;
+  icon: ComponentProps<typeof MaterialCommunityIcons>["name"];
+  backgroundColor: string;
+  color: string;
+}

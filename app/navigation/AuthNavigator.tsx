@@ -4,24 +4,13 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 
-import colors from "../config/colors";
 import routes from "./routes";
-
-export type AuthStackParamList = {
-  Welcome: undefined;
-  Login: undefined;
-  Register: undefined;
-};
+import { AuthStackParamList } from "./route-types";
 
 const Stack = createStackNavigator<AuthStackParamList>();
 
 const AuthNavigator = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerTintColor: colors.primary,
-      headerStyle: { backgroundColor: colors.white },
-    }}
-  >
+  <Stack.Navigator>
     <Stack.Screen
       name={routes.WELCOME}
       component={WelcomeScreen}

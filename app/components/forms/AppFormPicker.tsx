@@ -4,7 +4,7 @@ import { DimensionValue } from "react-native";
 import AppPicker from "../AppPicker";
 import AppErrorMessage from "./AppErrorMessage";
 import PickerItem, { IPickerItemProps } from "../PickerItem";
-import { ICategory } from "../../config/categories";
+import { ICategory } from "../../types/interfaces";
 
 interface IAppFormPickerProps {
   items: ICategory[];
@@ -31,8 +31,8 @@ function AppFormPicker({
         width={width}
         items={items}
         placeholder={placeholder}
-        selectedItem={values[name]}
-        onSelectItem={(item) => setFieldValue(name, item)}
+        selectedItem={items.find((i) => i.id === values[name]) as ICategory}
+        onSelectItem={(item) => setFieldValue(name, item.id)}
         PickerItemComponent={PickerItemComponent}
         numberOfColumns={numberOfColumns}
       />

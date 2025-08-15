@@ -1,19 +1,13 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import ListingEditScreen from "../screens/ListingEditScreen";
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
 import NewListingButton from "./NewListingButton";
 
-import colors from "../config/colors";
+import { AppTabParamList } from "./route-types";
 import routes from "./routes";
-
-export type AppTabParamList = {
-  Feed: undefined;
-  ListingEdit: undefined;
-  Account: undefined;
-};
 
 const Tab = createBottomTabNavigator<AppTabParamList>();
 
@@ -21,7 +15,6 @@ const AppNavigator = () => (
   <Tab.Navigator
     screenOptions={{
       headerShown: false,
-      tabBarActiveTintColor: colors.primary,
     }}
   >
     <Tab.Screen

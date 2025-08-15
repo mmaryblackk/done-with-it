@@ -1,4 +1,4 @@
-import React, { ComponentProps, ReactElement, useState } from "react";
+import React, { ComponentProps, useState } from "react";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
@@ -12,10 +12,10 @@ import {
   View,
 } from "react-native";
 import defaultStyles from "../config/styles";
+import { ICategory } from "../types/interfaces";
 import AppText from "./AppText";
 import PickerItem, { IPickerItemProps } from "./PickerItem";
 import SafeScreen from "./SafeScreen";
-import { ICategory } from "../config/categories";
 
 interface IAppTextInputProps extends TextInputProps {
   selectedItem: ICategory | null;
@@ -53,7 +53,7 @@ function AppPicker({
             />
           )}
           {selectedItem ? (
-            <AppText style={styles.text}>{selectedItem.label}</AppText>
+            <AppText style={styles.text}>{selectedItem.name}</AppText>
           ) : (
             <AppText style={styles.placeholder}>{placeholder}</AppText>
           )}

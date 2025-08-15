@@ -1,13 +1,13 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { IPickerItemProps } from "./PickerItem";
-import Icon from "./Icon";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import AppText from "./AppText";
+import Icon from "./Icon";
+import { IPickerItemProps } from "./PickerItem";
 
 function CategoryPickerItem({ item, onPress }: IPickerItemProps) {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Icon backgroundColor={item.backgroundColor} name={item.icon} size={80} />
-      <AppText style={styles.label}>{item.label}</AppText>
+      <AppText style={styles.label}>{item.name}</AppText>
     </TouchableOpacity>
   );
 }

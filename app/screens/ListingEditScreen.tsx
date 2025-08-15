@@ -1,56 +1,78 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { ComponentProps } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
+
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import SafeScreen from "../components/SafeScreen";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import AppFormPicker from "../components/forms/AppFormPicker";
 import FormImagePicker from "../components/forms/FormImagePicker";
-import { categories, ICategory } from "../config/categories";
+
 import { useLocation } from "../hooks/useLocation";
 
-interface IListingEditFormValues {
+import categoriesApi from "../api/categories";
+import listings from "../api/listings";
+import { useApi } from "../hooks/useAPI";
+import { ICategory, IListing } from "../types/interfaces";
+
+export interface IListingEditFormValues {
   title: string;
   price: number;
   description?: string;
-  category: ICategory | null;
-  images?: string[];
+  categoryId: number;
+  images: { url: string }[];
 }
 
-const validationSchema: Yup.Schema<IListingEditFormValues> = Yup.object().shape(
-  {
-    title: Yup.string().required().min(1).label("Title"),
-    price: Yup.number().required().min(1).max(10000).label("Price"),
-    description: Yup.string().label("Description"),
-    category: Yup.object({
-      id: Yup.number().required(),
-      label: Yup.string().required(),
-      icon: Yup.mixed<
-        ComponentProps<typeof MaterialCommunityIcons>["name"]
-      >().required(),
-      backgroundColor: Yup.string().required(),
-    })
-      .required()
-      .nullable()
-      .label("Category"),
-    images: Yup.array().min(1, "Please select at least one image"),
-  }
-);
+const validationSchema: Yup.Schema<IListingEditFormValues> = Yup.object({
+  title: Yup.string().required().min(1).label("Title"),
+  price: Yup.number().required().min(1).max(10000).label("Price"),
+  description: Yup.string().label("Description"),
+  categoryId: Yup.number().required().label("Category"),
+  images: Yup.array()
+    .of(
+      Yup.object({
+        url: Yup.string().required(),
+      })
+    )
+    .min(1, "Please select at least one image")
+    .required(),
+});
 
 function ListingEditScreen() {
   const location = useLocation();
+
+  const { request: loadCategories, data: categories } = useApi<ICategory[]>(
+    categoriesApi.getCategories
+  );
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const handleSubmit = async (values: IListingEditFormValues) => {
+    const result = await listings.addListing({
+      ...values,
+      id: +Date.now(),
+      location,
+    } as IListing);
+    console.log(result);
+
+    if (!result.ok) return alert("Could not save the listing.");
+
+    alert("Success!");
+  };
+
   return (
     <SafeScreen style={styles.container}>
-      <AppForm
+      <AppForm<IListingEditFormValues>
         initialValues={{
           title: "",
           price: 0,
           description: "",
-          category: null,
+          categoryId: 0,
           images: [],
         }}
-        onSubmit={() => console.log(location)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
@@ -63,9 +85,9 @@ function ListingEditScreen() {
           width={120}
         />
         <AppFormPicker
-          items={categories}
+          items={categories ?? []}
           numberOfColumns={3}
-          name="category"
+          name="categoryId"
           PickerItemComponent={CategoryPickerItem}
           placeholder="Category"
           width="50%"

@@ -9,7 +9,6 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer theme={NavigationTheme}>
-        {/* <AuthNavigator /> */}
         <AppNavigator />
       </NavigationContainer>
     </GestureHandlerRootView>

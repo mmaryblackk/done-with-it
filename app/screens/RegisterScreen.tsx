@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
+
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import SafeScreen from "../components/SafeScreen";
 
@@ -15,7 +16,7 @@ function RegisterScreen() {
     <SafeScreen style={styles.container}>
       <AppForm
         initialValues={{ name: "", email: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={async (values) => console.log(values)}
         validationSchema={validationSchema}
       >
         <AppFormField
