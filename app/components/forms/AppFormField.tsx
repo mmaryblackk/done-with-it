@@ -1,8 +1,8 @@
 import { FormikValues, useFormikContext } from "formik";
 import React from "react";
+import { DimensionValue } from "react-native";
 import AppTextInput, { IAppTextInputProps } from "../AppTextInput";
 import AppErrorMessage from "./AppErrorMessage";
-import { DimensionValue } from "react-native";
 
 interface IAppFormFieldProps extends IAppTextInputProps {
   name: string;
@@ -10,12 +10,13 @@ interface IAppFormFieldProps extends IAppTextInputProps {
 }
 
 function AppFormField({ name, width, ...otherProps }: IAppFormFieldProps) {
-  const { handleChange, setFieldTouched, errors, touched } =
+  const { setFieldValue, setFieldTouched, errors, touched, values } =
     useFormikContext<FormikValues>();
   return (
     <>
       <AppTextInput
-        onChangeText={handleChange(name)}
+        onChangeText={(text) => setFieldValue(name, text)}
+        value={values[name]}
         onBlur={() => setFieldTouched(name)}
         width={width}
         {...otherProps}

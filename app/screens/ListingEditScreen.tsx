@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -7,6 +7,7 @@ import SafeScreen from "../components/SafeScreen";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import AppFormPicker from "../components/forms/AppFormPicker";
 import FormImagePicker from "../components/forms/FormImagePicker";
+import UploadScreen from "./UploadScreen";
 
 import { useLocation } from "../hooks/useLocation";
 
@@ -14,6 +15,7 @@ import categoriesApi from "../api/categories";
 import listings from "../api/listings";
 import { useApi } from "../hooks/useAPI";
 import { ICategory, IListing } from "../types/interfaces";
+import { FormikBag, FormikHelpers } from "formik";
 
 export interface IListingEditFormValues {
   title: string;
@@ -40,6 +42,7 @@ const validationSchema: Yup.Schema<IListingEditFormValues> = Yup.object({
 
 function ListingEditScreen() {
   const location = useLocation();
+  const [uploadVisible, setUploadVisible] = useState<boolean>(false);
 
   const { request: loadCategories, data: categories } = useApi<ICategory[]>(
     categoriesApi.getCategories
@@ -49,21 +52,30 @@ function ListingEditScreen() {
     loadCategories();
   }, []);
 
-  const handleSubmit = async (values: IListingEditFormValues) => {
+  const handleSubmit = async (
+    values: IListingEditFormValues,
+    { resetForm }: FormikHelpers<IListingEditFormValues>
+  ) => {
+    setUploadVisible(true);
     const result = await listings.addListing({
       ...values,
-      id: +Date.now(),
       location,
     } as IListing);
-    console.log(result);
 
-    if (!result.ok) return alert("Could not save the listing.");
+    if (!result.ok) {
+      setUploadVisible(false);
+      return alert("Could not save the listing.");
+    }
 
-    alert("Success!");
+    resetForm();
   };
 
   return (
     <SafeScreen style={styles.container}>
+      <UploadScreen
+        onDone={() => setUploadVisible(false)}
+        visible={uploadVisible}
+      />
       <AppForm<IListingEditFormValues>
         initialValues={{
           title: "",
