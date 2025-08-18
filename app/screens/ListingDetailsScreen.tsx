@@ -29,13 +29,13 @@ function ListingDetailsScreen({ route }: IListingDetailsScreenProps) {
       <View style={styles.detailsContainer}>
         <AppText style={styles.title}>{item.title}</AppText>
         <AppText style={styles.price}>${item.price}</AppText>
-        <View style={styles.userContainer}>
-          <ListItem
-            title="Maryna Kravchuk"
-            subTitle="5 Listings"
-            image={require("../assets/Maryna.jpg")}
-          />
-        </View>
+      </View>
+      <View style={styles.userContainer}>
+        <ListItem
+          title="Maryna Kravchuk"
+          subTitle="5 Listings"
+          image={require("../assets/Maryna.jpg")}
+        />
       </View>
     </View>
   );

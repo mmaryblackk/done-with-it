@@ -12,7 +12,7 @@ const Stack = createStackNavigator<AccountStackParamList>();
 const AccountNavigator: React.FC = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={routes.ACCOUNT}
+      name={routes.PROFILE}
       component={AccountScreen}
       options={{ headerShown: false }}
     />

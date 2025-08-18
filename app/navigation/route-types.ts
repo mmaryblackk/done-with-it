@@ -18,6 +18,6 @@ export type AppTabParamList = {
 };
 
 export type AccountStackParamList = {
-  Account: undefined;
+  Profile: undefined;
   Messages: undefined;
 };

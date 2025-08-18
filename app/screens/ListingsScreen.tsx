@@ -15,7 +15,7 @@ import { useApi } from "../hooks/useAPI";
 import routes from "../navigation/routes";
 
 import { FeedStackParamList } from "../navigation/route-types";
-import { IListing } from "../types/interfaces";
+import { IErrorResponse, IListing } from "../types/interfaces";
 
 type IListingsScreenProps = StackScreenProps<FeedStackParamList, "Listings">;
 
@@ -25,7 +25,7 @@ function ListingsScreen({ navigation }: IListingsScreenProps) {
     data: listings,
     error,
     loading,
-  } = useApi<IListing[]>(listingsApi.getListings);
+  } = useApi<IListing[], IErrorResponse>(listingsApi.getListings);
 
   useFocusEffect(
     useCallback(() => {
@@ -34,36 +34,38 @@ function ListingsScreen({ navigation }: IListingsScreenProps) {
   );
 
   return (
-    <SafeScreen style={styles.screen}>
-      {error && (
-        <>
-          <AppText>Couldn't load the listings.</AppText>
-          <AppButton title="Retry" onPress={loadListings} />
-        </>
-      )}
+    <>
       <AppActivityIndicator visible={loading} />
-      <FlatList
-        data={listings}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <Card
-            title={item.title}
-            subTitle={`$${item.price}`}
-            imageUrl={item.images[0].url}
-            thumbnailUrl={item.images[0].thumbnailUrl || ""}
-            onPress={() =>
-              navigation.navigate(routes.LISTING_DETAILS, { item })
-            }
-          />
+      <SafeScreen style={styles.screen}>
+        {error && (
+          <>
+            <AppText>Couldn't load the listings.</AppText>
+            <AppButton title="Retry" onPress={loadListings} />
+          </>
         )}
-      />
-    </SafeScreen>
+        <FlatList
+          data={listings}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Card
+              title={item.title}
+              subTitle={`$${item.price}`}
+              imageUrl={item.images[0].url}
+              thumbnailUrl={item.images[0].thumbnailUrl || ""}
+              onPress={() =>
+                navigation.navigate(routes.LISTING_DETAILS, { item })
+              }
+            />
+          )}
+        />
+      </SafeScreen>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 20,
+    paddingHorizontal: 20,
     backgroundColor: colors.light,
   },
 });

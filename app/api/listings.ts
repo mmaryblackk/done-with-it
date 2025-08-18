@@ -2,11 +2,11 @@ import { ApiResponse } from "apisauce";
 import client from "./client";
 
 import { IListingEditFormValues } from "../screens/ListingEditScreen";
-import { IListing } from "../types/interfaces";
+import { IErrorResponse, IListing } from "../types/interfaces";
 
 const ENDPOINT = "/listings";
 
-const getListings = (): Promise<ApiResponse<IListing[]>> =>
+const getListings = (): Promise<ApiResponse<IListing[], IErrorResponse>> =>
   client.get(ENDPOINT);
 
 const addListing = async (

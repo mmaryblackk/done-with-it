@@ -7,8 +7,10 @@ import Icon from "../components/Icon";
 import { ListItem, ListItemSeparator } from "../components/lists";
 import SafeScreen from "../components/SafeScreen";
 
-import colors from "../config/colors";
 import { AccountStackParamList } from "../navigation/route-types";
+
+import useAuth from "../auth/useAuth";
+import colors from "../config/colors";
 
 interface IMenuItem {
   title: string;
@@ -26,7 +28,7 @@ const menuItems: IMenuItem[] = [
       name: "format-list-bulleted",
       backgroundColor: colors.primary,
     },
-    targetScreen: "Account",
+    targetScreen: "Profile",
   },
   {
     title: "My Messages",
@@ -38,15 +40,17 @@ const menuItems: IMenuItem[] = [
   },
 ];
 
-type IAccountScreenProps = StackScreenProps<AccountStackParamList, "Account">;
+type IAccountScreenProps = StackScreenProps<AccountStackParamList, "Profile">;
 
 function AccountScreen({ navigation }: IAccountScreenProps) {
+  const { user, logOut } = useAuth();
+
   return (
     <SafeScreen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
-          title="Maryna Kravchuk"
-          subTitle="marynakravchuk02@gmail.com"
+          title={user!.name as string}
+          subTitle={user!.email as string}
           image={require("../assets/Maryna.jpg")}
         />
       </View>
@@ -72,6 +76,7 @@ function AccountScreen({ navigation }: IAccountScreenProps) {
       <ListItem
         title="Log Out"
         IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+        onPress={() => logOut()}
       />
     </SafeScreen>
   );

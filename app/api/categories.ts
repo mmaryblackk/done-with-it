@@ -1,10 +1,10 @@
 import { ApiResponse } from "apisauce";
-import { ICategory } from "../types/interfaces";
+import { ICategory, IErrorResponse } from "../types/interfaces";
 import client from "./client";
 
 const ENDPOINT = "/categories";
 
-const getCategories = (): Promise<ApiResponse<ICategory[]>> =>
+const getCategories = (): Promise<ApiResponse<ICategory[], IErrorResponse>> =>
   client.get(ENDPOINT);
 
 export default {

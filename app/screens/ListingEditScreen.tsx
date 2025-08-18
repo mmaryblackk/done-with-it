@@ -14,7 +14,7 @@ import { useLocation } from "../hooks/useLocation";
 import categoriesApi from "../api/categories";
 import listings from "../api/listings";
 import { useApi } from "../hooks/useAPI";
-import { ICategory, IListing } from "../types/interfaces";
+import { ICategory, IErrorResponse, IListing } from "../types/interfaces";
 import { FormikBag, FormikHelpers } from "formik";
 
 export interface IListingEditFormValues {
@@ -44,9 +44,10 @@ function ListingEditScreen() {
   const location = useLocation();
   const [uploadVisible, setUploadVisible] = useState<boolean>(false);
 
-  const { request: loadCategories, data: categories } = useApi<ICategory[]>(
-    categoriesApi.getCategories
-  );
+  const { request: loadCategories, data: categories } = useApi<
+    ICategory[],
+    IErrorResponse
+  >(categoriesApi.getCategories);
 
   useEffect(() => {
     loadCategories();

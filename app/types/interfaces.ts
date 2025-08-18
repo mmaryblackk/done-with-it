@@ -25,3 +25,20 @@ export interface ICategory {
   backgroundColor: string;
   color: string;
 }
+
+export interface IUser {
+  email: string;
+  iat: number;
+  name: string;
+  userId: number;
+}
+
+export interface IUserInfo {
+  email: string;
+  name: string;
+  password: string;
+}
+
+export interface IErrorResponse {
+  error: string;
+}
