@@ -29,7 +29,7 @@ function UploadScreen({ visible = false, onDone }: IUploadScreenProps) {
   };
 
   return (
-    <Modal visible={visible} transparent>
+    <Modal visible={visible}>
       <View style={styles.container}>
         <LottieView
           ref={animRef}
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
   },
 });
 

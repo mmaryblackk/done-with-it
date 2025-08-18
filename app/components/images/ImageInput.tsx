@@ -6,9 +6,12 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+
+import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
+
 import defaultStyles from "../../config/styles";
 import Icon from "../Icon";
-import * as ImagePicker from "expo-image-picker";
 
 interface IImageInputProps {
   imageUri?: string;
@@ -38,11 +41,19 @@ function ImageInput({ imageUri, onChangeImage }: IImageInputProps) {
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: "images",
+        mediaTypes: ["images"],
         quality: 0.5,
+        exif: true,
       });
+
       if (!result.canceled) {
-        onChangeImage(result.assets[0].uri);
+        const fixedImage = await ImageManipulator.manipulateAsync(
+          result.assets[0].uri,
+          [{ rotate: 0 }],
+          { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+        );
+
+        onChangeImage(fixedImage.uri);
       }
     } catch (error) {
       console.log(error);

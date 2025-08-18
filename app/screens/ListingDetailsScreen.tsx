@@ -1,6 +1,7 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Image } from "react-native-expo-image-cache";
 
 import AppText from "../components/AppText";
 import { ListItem } from "../components/lists";
@@ -16,9 +17,15 @@ type IListingDetailsScreenProps = StackScreenProps<
 function ListingDetailsScreen({ route }: IListingDetailsScreenProps) {
   const { item } = route.params;
   const imageUrl = item.images[0].url;
+  const imagePreviewUrl = item.images[0].thumbnailUrl;
   return (
     <View>
-      <Image style={styles.image} source={{ uri: imageUrl }} />
+      <Image
+        style={styles.image}
+        uri={imageUrl}
+        tint="light"
+        preview={{ uri: imagePreviewUrl }}
+      />
       <View style={styles.detailsContainer}>
         <AppText style={styles.title}>{item.title}</AppText>
         <AppText style={styles.price}>${item.price}</AppText>

@@ -1,7 +1,8 @@
 import { ApiResponse } from "apisauce";
 import client from "./client";
-import { IListing } from "../types/interfaces";
+
 import { IListingEditFormValues } from "../screens/ListingEditScreen";
+import { IListing } from "../types/interfaces";
 
 const ENDPOINT = "/listings";
 
