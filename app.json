@@ -25,6 +25,15 @@
     "web": {
       "favicon": "./app/assets/favicon.png"
     },
-    "plugins": ["expo-secure-store"]
+    "plugins": ["expo-secure-store", "expo-notifications"],
+    "extra": {
+      "eas": {
+        "projectId": "d1a9290d-2c75-47b0-ac0f-8d2c6ecec877"
+      }
+    },
+    "owner": "mmaryblackk",
+    "notification": {
+      "iosDisplayInForeground": true
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 
 import AppText from "../components/AppText";
@@ -8,6 +8,7 @@ import { ListItem } from "../components/lists";
 
 import colors from "../config/colors";
 import { FeedStackParamList } from "../navigation/route-types";
+import ContactSellerForm from "../components/ContactSellerForm";
 
 type IListingDetailsScreenProps = StackScreenProps<
   FeedStackParamList,
@@ -19,7 +20,10 @@ function ListingDetailsScreen({ route }: IListingDetailsScreenProps) {
   const imageUrl = item.images[0].url;
   const imagePreviewUrl = item.images[0].thumbnailUrl;
   return (
-    <View>
+    <KeyboardAvoidingView
+      behavior="position"
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
+    >
       <Image
         style={styles.image}
         uri={imageUrl}
@@ -30,14 +34,15 @@ function ListingDetailsScreen({ route }: IListingDetailsScreenProps) {
         <AppText style={styles.title}>{item.title}</AppText>
         <AppText style={styles.price}>${item.price}</AppText>
       </View>
-      <View style={styles.userContainer}>
+      <View>
         <ListItem
           title="Maryna Kravchuk"
           subTitle="5 Listings"
           image={require("../assets/Maryna.jpg")}
         />
       </View>
-    </View>
+      <ContactSellerForm listing={item} />
+    </KeyboardAvoidingView>
   );
 }
 
@@ -47,7 +52,8 @@ const styles = StyleSheet.create({
     height: 300,
   },
   detailsContainer: {
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   title: {
     fontSize: 24,
@@ -58,9 +64,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     marginVertical: 10,
-  },
-  userContainer: {
-    marginVertical: 40,
   },
 });
 

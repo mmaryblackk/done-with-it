@@ -11,11 +11,11 @@ import UploadScreen from "./UploadScreen";
 
 import { useLocation } from "../hooks/useLocation";
 
+import { FormikHelpers } from "formik";
 import categoriesApi from "../api/categories";
 import listings from "../api/listings";
 import { useApi } from "../hooks/useAPI";
 import { ICategory, IErrorResponse, IListing } from "../types/interfaces";
-import { FormikBag, FormikHelpers } from "formik";
 
 export interface IListingEditFormValues {
   title: string;
