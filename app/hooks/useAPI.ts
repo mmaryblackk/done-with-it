@@ -22,7 +22,7 @@ export function useApi<T, U>(
       setData(response.data ?? null);
     }
 
-    return response; // 🔥 ключове — тепер handleSubmit отримає ApiResponse<T, U>
+    return response;
   };
 
   return { request, data, error, loading };

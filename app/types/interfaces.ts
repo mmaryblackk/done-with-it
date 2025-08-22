@@ -42,3 +42,8 @@ export interface IUserInfo {
 export interface IErrorResponse {
   error: string;
 }
+
+export interface ILocation {
+  latitude: number;
+  longitude: number;
+}

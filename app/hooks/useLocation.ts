@@ -1,10 +1,6 @@
-import { useEffect, useState } from "react";
 import * as Location from "expo-location";
-
-interface ILocation {
-  latitude: number;
-  longitude: number;
-}
+import { useEffect, useState } from "react";
+import { ILocation } from "../types/interfaces";
 
 export const useLocation = () => {
   const [location, setLocation] = useState<ILocation | null>(null);

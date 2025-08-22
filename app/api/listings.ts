@@ -1,7 +1,6 @@
 import { ApiResponse } from "apisauce";
 import client from "./client";
 
-import { IListingEditFormValues } from "../screens/ListingEditScreen";
 import { IErrorResponse, IListing } from "../types/interfaces";
 
 const ENDPOINT = "/listings";
@@ -9,9 +8,7 @@ const ENDPOINT = "/listings";
 const getListings = (): Promise<ApiResponse<IListing[], IErrorResponse>> =>
   client.get(ENDPOINT);
 
-const addListing = async (
-  listing: IListingEditFormValues & { latitude?: number; longitude?: number }
-) => {
+const addListing = async (listing: IListing) => {
   const data = new FormData();
 
   data.append("title", listing.title);
@@ -20,8 +17,10 @@ const addListing = async (
 
   if (listing.description) data.append("description", listing.description);
 
-  if (listing.latitude) data.append("latitude", listing.latitude.toString());
-  if (listing.longitude) data.append("longitude", listing.longitude.toString());
+  if (listing.location) {
+    data.append("latitude", listing.location.latitude.toString());
+    data.append("longitude", listing.location.longitude.toString());
+  }
 
   listing.images.forEach((img, i) => {
     data.append("images", {

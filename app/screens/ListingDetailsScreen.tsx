@@ -1,6 +1,12 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Image } from "react-native-expo-image-cache";
 
 import AppText from "../components/AppText";
@@ -9,6 +15,7 @@ import { ListItem } from "../components/lists";
 import colors from "../config/colors";
 import { FeedStackParamList } from "../navigation/route-types";
 import ContactSellerForm from "../components/ContactSellerForm";
+import Maps from "../components/Maps";
 
 type IListingDetailsScreenProps = StackScreenProps<
   FeedStackParamList,
@@ -24,24 +31,27 @@ function ListingDetailsScreen({ route }: IListingDetailsScreenProps) {
       behavior="position"
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
     >
-      <Image
-        style={styles.image}
-        uri={imageUrl}
-        tint="light"
-        preview={{ uri: imagePreviewUrl }}
-      />
-      <View style={styles.detailsContainer}>
-        <AppText style={styles.title}>{item.title}</AppText>
-        <AppText style={styles.price}>${item.price}</AppText>
-      </View>
-      <View>
-        <ListItem
-          title="Maryna Kravchuk"
-          subTitle="5 Listings"
-          image={require("../assets/Maryna.jpg")}
+      <ScrollView>
+        <Image
+          style={styles.image}
+          uri={imageUrl}
+          tint="light"
+          preview={{ uri: imagePreviewUrl }}
         />
-      </View>
-      <ContactSellerForm listing={item} />
+        <View style={styles.detailsContainer}>
+          <AppText style={styles.title}>{item.title}</AppText>
+          <AppText style={styles.price}>${item.price}</AppText>
+        </View>
+        <View>
+          <ListItem
+            title="Maryna Kravchuk"
+            subTitle="5 Listings"
+            image={require("../assets/Maryna.jpg")}
+          />
+        </View>
+        <ContactSellerForm listing={item} />
+        {item.location && <Maps location={item.location} title={item.title} />}
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }
